@@ -2,6 +2,8 @@
 import argparse
 import os
 import time
+import pwd
+import grp
 
 def list_files():
     for file in os.listdir('.'):
@@ -22,10 +24,14 @@ def list_files_in_columns():
                 one = 'd'
             else:
                 one = '-'
-            two = time.strftime("%m %d %M：%S", time.gmtime(os.stat(file2).st_mtime))
+            two = time.strftime("%m %d %H:%M", time.localtime(os.stat(file2).st_mtime))
 
-            print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, os.stat(file2).st_uid, os.stat(file2).st_gid,
-                  os.stat(file2).st_size, two, file)
+            three = pwd.getpwuid(os.stat(file2).st_uid).pw_name
+
+            four = grp.getgrgid(os.stat(file).st_gid).gr_name
+
+            print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
+
         else:
             pass
 
@@ -37,10 +43,13 @@ def list_all_files_in_columns():
         else:
             one = '-'
 
-        two = time.strftime("%m %d %M：%S", time.gmtime(os.stat(file2).st_mtime))
+        two = time.strftime("%m %d %H:%M", time.gmtime(os.stat(file2).st_mtime))
 
-        print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, os.stat(file2).st_uid, os.stat(file2).st_gid,
-              os.stat(file2).st_size, two, file)
+        three = pwd.getpwuid(os.stat(file2).st_uid).pw_name
+
+        four = grp.getgrgid(os.stat(file).st_gid).gr_name
+
+        print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
 
 
 parser = argparse.ArgumentParser(prog='rabbit')
