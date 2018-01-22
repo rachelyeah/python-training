@@ -30,10 +30,28 @@ def list_files_in_columns():
 
             four = grp.getgrgid(os.stat(file).st_gid).gr_name
 
-            print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
+            limits = {
+                '000': '---',
+                '001': '--x',
+                '010': '-w-',
+                '100': 'r--',
+                '011': '-wx',
+                '101': 'r-w',
+                '110': 'rw-',
+                '111': 'rwx',
+            }
 
-        else:
-            pass
+            def limits_(five):
+                limitsnum1 = limits.get(five[0:3], 0)
+                limitsnum2 = limits.get(five[3:6], 0)
+                limitsnum3 = limits.get(five[6:9], 0)
+                return limitsnum1 + limitsnum2 + limitsnum3
+
+            five = str(bin(os.stat(file2).st_mode)[-9:])
+
+            print(one + limits_(five), os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
+
+
 
 def list_all_files_in_columns():
     for file in os.listdir('.'):
@@ -49,7 +67,26 @@ def list_all_files_in_columns():
 
         four = grp.getgrgid(os.stat(file).st_gid).gr_name
 
-        print(one, os.stat(file2).st_mode, os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
+        limits = {
+            '000': '---',
+            '001': '--x',
+            '010': '-w-',
+            '100': 'r--',
+            '011': '-wx',
+            '101': 'r-w',
+            '110': 'rw-',
+            '111': 'rwx',
+        }
+
+        def limits_(five):
+            limitsnum1 = limits.get(five[0:3], 0)
+            limitsnum2 = limits.get(five[3:6], 0)
+            limitsnum3 = limits.get(five[6:9], 0)
+            return limitsnum1 + limitsnum2 + limitsnum3
+
+        five = str(bin(os.stat(file2).st_mode)[-9:])
+
+        print(one+limits_(five), os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file)
 
 
 parser = argparse.ArgumentParser(prog='rabbit')
