@@ -59,7 +59,7 @@ def list_files_in_columns():
             six = one + limits_(five), os.stat(file2).st_nlink, three, four, os.stat(file2).st_size, two, file
             return six
 
-    print(list_files_in_columns())
+print(list_files_in_columns())
 
 
 def list_all_files_in_columns():
